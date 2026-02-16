@@ -21,7 +21,7 @@ Minimal Express 5 backend with no API endpoints. Two servers:
 - **HTTPS** on port `3443` — serves static files from `public/pikmin/`
 - **HTTP** on port `3000` — redirects all traffic to HTTPS
 
-SSL certs (`server.key`, `server.crt`) must exist in the project root. Generate them with `npm run generate-certs` ([generate-certs.js](generate-certs.js) uses the `selfsigned` devDependency). `server.key` is gitignored; `server.crt` is tracked.
+SSL certs (`server.key`, `server.crt`) must exist in the project root. Generate them with `npm run generate-certs` ([generate-certs.js](generate-certs.js) uses the `selfsigned` devDependency). All generated cert files (`server.key`, `server.crt`, `server.csr`) are gitignored — each environment generates its own.
 
 ### Frontend ([public/pikmin/](public/pikmin/))
 Vanilla HTML/CSS/JS SPA — no frameworks or build step. All UI logic lives in [public/pikmin/script.js](public/pikmin/script.js).
