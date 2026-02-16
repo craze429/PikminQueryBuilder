@@ -13,7 +13,6 @@ The front-end is a single-page application built with HTML, CSS, and vanilla Jav
 ### Prerequisites
 
 *   Node.js and npm
-*   OpenSSL (for generating SSL certificates if they don't exist)
 
 ### Setup
 
@@ -23,12 +22,11 @@ The front-end is a single-page application built with HTML, CSS, and vanilla Jav
     ```
 
 2.  **Generate SSL Certificates:**
-    The server requires `server.key` and `server.crt` files for HTTPS. If you don't have them, you can generate self-signed certificates using OpenSSL:
+    The server requires `server.key` and `server.crt` files for HTTPS. If you don't have them, you can generate them by running the following npm script:
     ```bash
-    openssl genrsa -out server.key 2048
-    openssl req -new -key server.key -out server.csr
-    openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+    npm run generate-certs
     ```
+    This command uses the `selfsigned` package to create the necessary files.
 
 ### Running the Application
 
