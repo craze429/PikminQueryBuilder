@@ -29,10 +29,8 @@ try {
     };
 } catch (error) {
     console.error('錯誤：找不到 SSL 憑證檔案 (server.key 和 server.crt)。');
-    console.error('請確保這些檔案存在於專案根目錄下，或者使用 OpenSSL 產生它們：');
-    console.error('  openssl genrsa -out server.key 2048');
-    console.error('  openssl req -new -key server.key -out server.csr');
-    console.error('  openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt');
+    console.error('請執行以下指令產生憑證：');
+    console.error('  npm run generate-certs');
     process.exit(1); // 找不到憑證則退出
 }
 
