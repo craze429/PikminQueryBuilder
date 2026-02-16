@@ -35,4 +35,6 @@ Buttons carry their search token in a `data-text` attribute; click handlers read
 
 **PWA**: [service-worker.js](public/pikmin/service-worker.js) uses a cache-first strategy. [manifest.json](public/pikmin/manifest.json) enables installation. Theme: Pikmin Bloom blue (`#5dade2`).
 
+> **重要**：每次修改任何前端檔案（HTML/CSS/JS）後，必須同步將 `service-worker.js` 的 `CACHE_VERSION` 數字加一，確保手機瀏覽器能清除舊 cache 並載入新版本。目前版本：`9`。
+
 The UI is in Traditional Chinese (繁體中文).
