@@ -12,10 +12,28 @@ const initialDefaultText = "";
 let textToCopyContent = initialDefaultText; // 儲存要複製的文字內容
 let nextConnector = null; // 儲存下一個連接詞 ('&' 或 '|')
 let isNotActive = false; // 標記 "不是" 功能是否啟用
+let toastTimeout = null; // 用於避免 Toast 計時器互相干擾
 
 // 更新顯示文字框內容
 function updateDisplayTextBox() {
   displayTextbox.value = textToCopyContent;
+}
+
+// 儲存狀態到 localStorage
+function saveState() {
+  localStorage.setItem('copyflow_text', textToCopyContent);
+  localStorage.setItem('copyflow_connector', nextConnector ?? '');
+  localStorage.setItem('copyflow_not', isNotActive ? '1' : '0');
+}
+
+// 從 localStorage 讀取並還原狀態
+function loadState() {
+  const savedText = localStorage.getItem('copyflow_text');
+  if (savedText !== null) {
+    textToCopyContent = savedText;
+    nextConnector = localStorage.getItem('copyflow_connector') || null;
+    isNotActive = localStorage.getItem('copyflow_not') === '1';
+  }
 }
 
 // 顯示浮動通知
@@ -26,8 +44,11 @@ function showToast(message) {
   toastNotification.style.display = 'block'; // 顯示通知
   toastNotification.classList.add('show'); // 觸發顯示動畫
 
+  // 清除舊計時器，避免多次點擊時互相干擾
+  clearTimeout(toastTimeout);
+
   // 設定一段時間後隱藏通知
-  setTimeout(() => {
+  toastTimeout = setTimeout(() => {
     toastNotification.classList.remove('show'); // 觸發隱藏動畫
 
     // 等待動畫結束後真正隱藏元素
@@ -62,9 +83,11 @@ function handleContentButtonClick(newText) {
   }
 
   updateDisplayTextBox(); // 更新顯示文字框
+  saveState(); // 儲存狀態
 }
 
-// 初始化時更新顯示文字框
+// 初始化時從 localStorage 還原狀態，再更新顯示文字框
+loadState();
 updateDisplayTextBox();
 
 // 為所有帶有 data-text 屬性的按鈕綁定點擊事件
@@ -78,16 +101,19 @@ buttons.forEach(button => {
 // 「不是」按鈕事件監聽器
 notButton.addEventListener('click', function () {
   isNotActive = true;
+  saveState();
 });
 
 // 「並且」按鈕事件監聽器
 andButton.addEventListener('click', function () {
   nextConnector = ' & ';
+  saveState();
 });
 
 // 「或」按鈕事件監聽器
 orButton.addEventListener('click', function () {
   nextConnector = ' | ';
+  saveState();
 });
 
 // 「清除」按鈕事件監聽器
@@ -96,6 +122,9 @@ clearButton.addEventListener('click', function () {
   nextConnector = null;
   isNotActive = false;
   updateDisplayTextBox();
+  localStorage.removeItem('copyflow_text');
+  localStorage.removeItem('copyflow_connector');
+  localStorage.removeItem('copyflow_not');
 });
 
 // 「複製內容到剪貼簿」按鈕事件監聽器

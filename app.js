@@ -36,6 +36,15 @@ try {
     process.exit(1); // 找不到憑證則退出
 }
 
+// 安全性 Headers
+app.use((_req, res, next) => {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'no-referrer');
+    next();
+});
+
 // 建立 HTTPS 伺服器
 const httpsServer = https.createServer(options, app);
 
@@ -55,7 +64,8 @@ httpsServer.listen(httpsPort, () => {
 
 const http = require('http');
 const httpServer = http.createServer((req, res) => {
-    const redirectTo = `https://${req.headers.host.replace(httpPort, httpsPort)}${req.url}`;
+    const host = req.headers.host.split(':')[0];
+    const redirectTo = `https://${host}:${httpsPort}${req.url}`;
     res.writeHead(301, { "Location": redirectTo });
     res.end();
 });
