@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5dade2" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon_x192.png">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Pikmin Bloom 搜尋字串產生器</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Pikmin Bloom 搜尋字串產生器</h1>
+        <p>點擊按鈕選擇皮克敏的狀態、種類 (包括顏色、羽翅、岩石) 或標籤，來組合您的 Pikmin Bloom 搜尋字串。完成後複製到遊戲中使用。</p>
+        <textarea id="displayTextbox" rows="1" cols="50" readonly></textarea>
+
+        <div class="button-grid">
+            <button id="setLeafTextButton" data-text="葉子">葉子</button>
+            <button id="setBudTextButton" data-text="花苞">花苞</button>
+            <button id="setFlowerTextButton" data-text="開花">開花</button>
+            <button id="setFlowerFullTextButton" data-text="花朵">花朵</button>
+            <button id="setWitheredTextButton" data-text="枯萎">枯萎</button>
+        </div>
+        <div class="button-grid">
+            <button id="redButton" data-text="紅色">紅色</button>
+            <button id="yellowButton" data-text="黃色">黃色</button>
+            <button id="blueButton" data-text="藍色">藍色</button>
+            <button id="purpleButton" data-text="紫色">紫色</button>
+            <button id="whiteButton" data-text="白色">白色</button>
+            <button id="wingButton" data-text="羽翅">羽翅</button>
+            <button id="rockButton" data-text="岩石">岩石</button>
+        </div>
+        <div class="button-grid">
+            <button id="loveButton" data-text="喜愛">喜愛</button>
+            <button id="accessoryButton" data-text="飾品">飾品</button>
+            <button id="lessThanFourStarsButton" data-text="-3*">未滿四星</button>
+            <button id="fourStarsOrMoreButton" data-text="4-*">四星以上</button>
+        </div>
+        <div class="functional-buttons">
+            <button id="notButton">不是</button>
+            <button id="andButton">並且</button>
+            <button id="orButton">或</button>
+            <button id="clearButton">清除</button>
+        </div>
+
+        <button id="copyButton">複製內容到剪貼簿</button>
+    </div>
+
+    <div id="toast-notification" class="toast" style="display:none;"></div>
+
+    <script src="script.js" defer></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => { // 確保 service-worker.js 的路徑正確指向它實際的位置
+                navigator.serviceWorker.register('/pikmin/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope); // 預期 scope 會是 /pikmin/
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

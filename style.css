@@ -1,0 +1,234 @@
+/* ==========================================================================
+   General styles
+   ========================================================================== */
+
+/* Resets & General Styles */
+body {
+    font-family: Roboto, "Noto Sans TC", "Droid Sans", "PingFang TC", "Microsoft JhengHei", "Heiti TC", "Noto Sans CJK TC", sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ==========================================================================
+   Layout & Container Styles
+   ========================================================================== */
+
+/* Main container */
+.container {
+    width: 100%;
+    max-width: 700px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+/* Headings */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Paragraphs */
+p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    color: #5a5a5a;
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+
+/* Textarea */
+textarea#displayTextbox {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    font-size: 1em;
+    resize: vertical;
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-family: Roboto, "Noto Sans TC", "Droid Sans", "PingFang TC", "Microsoft JhengHei", "Heiti TC", "Noto Sans CJK TC", sans-serif;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* ==========================================================================
+   Buttons & Interactive Elements
+   ========================================================================== */
+
+/* Button Grid */
+.button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+/* General Button Styles */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5dade2;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-align: center;
+    flex-grow: 1;
+    min-width: 80px;
+}
+
+button:hover {
+    background-color: #3498db;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Specific Button Colors */
+#notButton,
+#andButton,
+#orButton {
+    background-color: #f39c12;
+}
+
+#notButton:hover,
+#andButton:hover,
+#orButton:hover {
+    background-color: #e67e22;
+}
+
+#clearButton {
+    background-color: #e74c3c;
+}
+
+#clearButton:hover {
+    background-color: #c0392b;
+}
+
+/* Copy Button */
+#copyButton {
+    background-color: #2ecc71;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#copyButton:hover {
+    background-color: #27ae60;
+}
+
+/* Functional Buttons Grouping */
+.functional-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.functional-buttons button {
+    flex-basis: calc(25% - 10px);
+    min-width: 70px;
+}
+
+/* ==========================================================================
+   Mobile-Specific Styles (Responsive Design)
+   ========================================================================== */
+
+/* Media query for screens smaller than 600px */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    p {
+        font-size: 0.9em;
+    }
+
+    textarea#displayTextbox {
+        padding: 10px;
+        font-size: 0.95em;
+    }
+
+    .button-grid button,
+    .functional-buttons button {
+        flex-basis: calc(25% - 6px);
+        min-width: 55px;
+        padding: 10px 5px;
+        font-size: 1em;
+    }
+
+    #copyButton {
+        padding: 15px;
+        font-size: 1.2em;
+    }
+
+    /* Media query for screens smaller than 400px */
+    @media (max-width: 400px) {
+
+        .button-grid button,
+        .functional-buttons button {
+            flex-basis: calc(33.333% - 6px);
+            min-width: 50px;
+            padding: 8px 4px;
+            font-size: 0.95em;
+        }
+    }
+}
+
+/* ==========================================================================
+   Toast Notification Styles
+   ========================================================================== */
+
+/* Toast container */
+.toast {
+    position: fixed;
+    bottom: calc(25vh - 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+    font-size: 0.9em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Show class to trigger the toast */
+.toast.show {
+    opacity: 1;
+    bottom: 25vh;
+}
