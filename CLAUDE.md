@@ -46,4 +46,6 @@ Buttons carry their search token in a `data-text` attribute; click handlers read
 
 > **重要**：每次修改任何前端檔案（HTML/CSS/JS）後，必須同步將 `service-worker.js` 的 `CACHE_VERSION` 數字加一，確保手機瀏覽器能清除舊 cache 並載入新版本。
 
+> **重要**：每次新增或移除按鈕後，必須同步更新 [README.md](README.md) 的功能列表，確保文件與實際按鈕一致。
+
 The UI is in Traditional Chinese (繁體中文).
