@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm install              # Install dependencies
 npm run generate-certs   # Generate self-signed SSL certs (server.key + server.crt)
 npm start                # Start the app (HTTPS on :3443, HTTP redirect on :3000)
+npm run deploy           # Deploy public/pikmin/ to GitHub Pages (gh-pages branch)
 ```
 
 No test runner is configured (`npm test` is a placeholder).
@@ -15,6 +16,8 @@ No test runner is configured (`npm test` is a placeholder).
 ## Architecture
 
 CopyFlow is a **Pikmin Bloom search string generator** — a PWA that lets users compose search query strings by clicking buttons, then copy the result into the game.
+
+Live URL: https://craze429.github.io/PikminQueryBuilder/
 
 ### Server ([app.js](app.js))
 Minimal Express 5 backend with no API endpoints. Two servers:
@@ -33,8 +36,14 @@ Vanilla HTML/CSS/JS SPA — no frameworks or build step. All UI logic lives in [
 
 Buttons carry their search token in a `data-text` attribute; click handlers read this and append to the string with the appropriate connector/negation. The Copy button writes to the clipboard and shows a toast.
 
+**Button categories:**
+- 狀態：葉子、花苞、開花、花朵、枯萎
+- 種類：紅色、黃色、藍色、紫色、白色、羽翅、岩石、冰凍
+- 標籤：喜愛、飾品、未滿四星、四星以上
+- 邏輯：不是（NOT）、並且（AND）、或（OR）、清除
+
 **PWA**: [service-worker.js](public/pikmin/service-worker.js) uses a cache-first strategy. [manifest.json](public/pikmin/manifest.json) enables installation. Theme: Pikmin Bloom blue (`#5dade2`).
 
-> **重要**：每次修改任何前端檔案（HTML/CSS/JS）後，必須同步將 `service-worker.js` 的 `CACHE_VERSION` 數字加一，確保手機瀏覽器能清除舊 cache 並載入新版本。目前版本：`9`。
+> **重要**：每次修改任何前端檔案（HTML/CSS/JS）後，必須同步將 `service-worker.js` 的 `CACHE_VERSION` 數字加一，確保手機瀏覽器能清除舊 cache 並載入新版本。
 
 The UI is in Traditional Chinese (繁體中文).
