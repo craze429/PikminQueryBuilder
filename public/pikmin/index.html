@@ -84,10 +84,10 @@
     <script src="script.js" defer></script>
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => { // 確保 service-worker.js 的路徑正確指向它實際的位置
-                navigator.serviceWorker.register('/pikmin/service-worker.js')
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
                     .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope); // 預期 scope 會是 /pikmin/
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
                     .catch(error => {
                         console.log('ServiceWorker registration failed: ', error);
