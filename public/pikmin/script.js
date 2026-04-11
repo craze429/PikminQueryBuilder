@@ -127,6 +127,117 @@ clearButton.addEventListener('click', function () {
   localStorage.removeItem('copyflow_not');
 });
 
+// ── 親密度 Modal ──────────────────────────────────────────────────────────
+const intimacyButton = document.getElementById('intimacyButton');
+const intimacyModalOverlay = document.getElementById('intimacy-modal-overlay');
+const intimacyPreview = document.getElementById('intimacy-preview');
+const keypadBackspace = document.getElementById('keypad-backspace');
+const keypadCancel = document.getElementById('keypad-cancel');
+const keypadConfirm = document.getElementById('keypad-confirm');
+
+let intimacyInput = '';
+
+function updateIntimacyPreview() {
+  if (intimacyInput === '') {
+    intimacyPreview.textContent = '（請輸入數字）';
+    intimacyPreview.classList.add('is-empty');
+  } else {
+    intimacyPreview.textContent = intimacyInput + '*';
+    intimacyPreview.classList.remove('is-empty');
+  }
+}
+
+function openIntimacyModal() {
+  intimacyInput = '';
+  updateIntimacyPreview();
+  intimacyModalOverlay.style.display = 'flex';
+}
+
+function closeIntimacyModal() {
+  intimacyInput = '';
+  intimacyModalOverlay.style.display = 'none';
+}
+
+intimacyButton.addEventListener('click', openIntimacyModal);
+
+// Validate and append one character to intimacyInput.
+// Returns false (and shakes preview) if the input is not allowed.
+function tryInput(char) {
+  const lastChar = intimacyInput.slice(-1);
+  const hasDash = intimacyInput.includes('-');
+
+  if (char === '-') {
+    // Only one dash allowed; must not already end with a dash
+    if (hasDash || lastChar === '' || lastChar === '-') return false;
+  } else {
+    // char is a digit 0-8
+    const digit = parseInt(char, 10);
+    // Disallow consecutive digits (e.g. "33")
+    if (lastChar !== '' && lastChar !== '-') return false;
+    // Enforce ascending order: right-side digit must be > left-side digit
+    if (hasDash) {
+      const leftStr = intimacyInput.split('-')[0];
+      if (leftStr !== '' && digit <= parseInt(leftStr, 10)) return false;
+    }
+  }
+
+  intimacyInput += char;
+  updateIntimacyPreview();
+  return true;
+}
+
+function shakePreview() {
+  intimacyPreview.classList.remove('shake');
+  // Force reflow to restart animation
+  void intimacyPreview.offsetWidth;
+  intimacyPreview.classList.add('shake');
+}
+
+document.querySelectorAll('.keypad-btn[data-input]').forEach(btn => {
+  btn.addEventListener('click', function () {
+    if (!tryInput(this.dataset.input)) shakePreview();
+  });
+});
+
+keypadBackspace.addEventListener('click', function () {
+  intimacyInput = intimacyInput.slice(0, -1);
+  updateIntimacyPreview();
+});
+
+keypadCancel.addEventListener('click', closeIntimacyModal);
+
+keypadConfirm.addEventListener('click', function () {
+  if (intimacyInput === '') {
+    showToast('請先輸入親密度數值！');
+    return;
+  }
+  const finalText = intimacyInput + '*';
+  closeIntimacyModal();
+  handleContentButtonClick(finalText);
+});
+
+intimacyModalOverlay.addEventListener('click', function (event) {
+  if (event.target === intimacyModalOverlay) closeIntimacyModal();
+});
+
+document.addEventListener('keydown', function (event) {
+  if (intimacyModalOverlay.style.display === 'none') return;
+  const key = event.key;
+  if (key >= '0' && key <= '8') {
+    if (!tryInput(key)) shakePreview();
+  } else if (key === '-') {
+    if (!tryInput('-')) shakePreview();
+  } else if (key === 'Backspace') {
+    event.preventDefault();
+    intimacyInput = intimacyInput.slice(0, -1);
+    updateIntimacyPreview();
+  } else if (key === 'Enter') {
+    keypadConfirm.click();
+  } else if (key === 'Escape') {
+    closeIntimacyModal();
+  }
+});
+
 // 「複製內容到剪貼簿」按鈕事件監聽器
 copyButton.addEventListener('click', function () {
   // 檢查內容是否為空或僅包含空白
