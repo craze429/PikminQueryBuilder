@@ -1,4 +1,4 @@
-const CACHE_VERSION = '2.2';
+const CACHE_VERSION = '2.3';
 const CURRENT_CACHE_NAME = `pikmin-cache-v${CACHE_VERSION}`;
 
 const ASSETS_TO_CACHE = [
@@ -32,7 +32,12 @@ self.addEventListener('activate', event => {
           }
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      self.clients.claim();
+      return self.clients.matchAll({ type: 'window' }).then(clients => {
+        clients.forEach(client => client.navigate(client.url));
+      });
+    })
   );
 });
 
