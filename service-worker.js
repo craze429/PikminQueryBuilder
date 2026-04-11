@@ -1,4 +1,4 @@
-const CACHE_VERSION = 11;
+const CACHE_VERSION = 13;
 const CURRENT_CACHE_NAME = `pikmin-cache-v${CACHE_VERSION}`;
 
 const ASSETS_TO_CACHE = [
